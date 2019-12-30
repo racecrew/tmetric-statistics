@@ -1,1 +1,1 @@
-# tmetricstat
+# tmetric-statistics
