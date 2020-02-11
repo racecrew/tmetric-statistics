@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>tmetricstatistics</RootNamespace>
+    <AssemblyName>tmetricstatistics</AssemblyName>
+    <TypescriptCompileBlocked>true</TypescriptCompileBlocked>
+    <UserSecretsId>d7b79864-488f-455b-9160-11bedb2bb18e</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="ClientApp\tmetric-statistics-app\src\app\app-routing.module.ts" />
+    <None Remove="ClientApp\tmetric-statistics-app\src\app\services\TMetricProjectService.ts" />
+    <None Remove="ClientApp\tmetric-statistics-app\src\app\services\TMetricUserProfileService.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\services\TMetricProjectService.ts" />
+    <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\services\TMetricUserProfileService.ts" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties clientapp_4angular_1json__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

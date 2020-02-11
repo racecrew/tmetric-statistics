@@ -1,0 +1,6 @@
+<div>
+  <h3>{{errorMsg}}</h3>
+  <ul (click)="onSelect(project)" *ngFor="let project of projectList">
+    <li>{{project.projectId}} :: {{project.projectName}}</li>
+  </ul>
+</div>

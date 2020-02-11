@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tmetric-statistics", "tmetric-statistics.csproj", "{92CD1427-7F2D-483E-9901-514A2E3F6CFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92CD1427-7F2D-483E-9901-514A2E3F6CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92CD1427-7F2D-483E-9901-514A2E3F6CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92CD1427-7F2D-483E-9901-514A2E3F6CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92CD1427-7F2D-483E-9901-514A2E3F6CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A15DA226-E14C-4867-9AEC-0BB8612B9763}
+	EndGlobalSection
+EndGlobal

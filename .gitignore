@@ -540,3 +540,7 @@ UpgradeLog.htm
 ###### End of Copied from https://github.com/aspnet/AspNetCore/blob/master/.gitignore
 
 .gitignore.bak
+tmetric.db
+ClientApp/.editorconfig
+wwwroot/
+*.bak
