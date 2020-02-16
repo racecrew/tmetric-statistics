@@ -1,6 +1,11 @@
-<div>
-  <h3>{{errMsg}}</h3>
-  <ul *ngFor="let account of accountList">
-    <li>{{account.accountId}} :: {{account.accountName}}</li>
-  </ul>
+<div class="container-fluid">
+  <h3 class="h3">{{errMsg}}</h3>
+  <form #userForm="ngForm">
+    <div class="form-group">
+      <select class="custom-select" (change)="doOnSelectAccountName()" name="accountName" [(ngModel)]="accountNameSelected">
+        <!--<option selected></option>-->
+        <option *ngFor="let account of accountList">{{ account.accountName }}</option>
+      </select>
+    </div>
+  </form>
 </div>

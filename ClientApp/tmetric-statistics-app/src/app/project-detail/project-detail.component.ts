@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-project-detail',
@@ -10,11 +10,12 @@ export class ProjectDetailComponent implements OnInit {
 
   public projectId;
 
-  constructor(private _route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    let id = parseInt(this._route.snapshot.paramMap.get('id'));
-    this.projectId = id;
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id'));
+      this.projectId = id;
+    });
   }
-
 }

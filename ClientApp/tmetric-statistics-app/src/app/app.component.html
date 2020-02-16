@@ -1,12 +1,8 @@
-<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-  <div class="container">
-    <h3>{{title}}</h3>
-    <ul class="nav navbar-nav" routerLinkActive="active">
-      <li class="nav-item"><a class="nav-link" routerLink="/home">Home</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/accounts">Accounts</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/projects">Projects</a></li>
-    </ul>
-  </div>
-</nav>
-
-<router-outlet></router-outlet>
+<h3 class="h3">{{title}}</h3>
+<app-home></app-home>
+<br />
+<app-account-list></app-account-list>
+<br />
+<app-project-list></app-project-list>
+<br />
+<app-project-detail></app-project-detail>
