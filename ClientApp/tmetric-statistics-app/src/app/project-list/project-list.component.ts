@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ITMetricProject } from '../../domain/ITMetricProject';
 import { TMetricProjectService } from '../Services/TMetricProjectService';
 import { Router } from '@angular/router'
-import { AccountDataService } from '../accountdata.service';
+import { DataExchangeService } from '../dataexchange.service';
 import { ITMetricAccount } from '../../domain/ITMetricAccount';
 import { Subscription } from 'rxjs';
 
@@ -13,20 +13,22 @@ import { Subscription } from 'rxjs';
 })
 export class ProjectListComponent implements OnInit {
 
-  public accountSelected: ITMetricAccount;
   public projectList: ITMetricProject[];
+  public projectSelected: ITMetricProject = null;
   public errorMsg: string;
+
+  private accountSelected: ITMetricAccount = null;
   private accountDataServiceSubscription: Subscription;
   private projectListSubscription: Subscription;
 
   constructor(
     private projectService: TMetricProjectService,
     private router: Router,
-    private accountDataService: AccountDataService) {
-  }
+    private dataExchangeService: DataExchangeService)
+  {  }
 
   ngOnInit() {
-    this.accountDataServiceSubscription = this.accountDataService.getMessage()
+    this.accountDataServiceSubscription = this.dataExchangeService.getAccountData()
       .subscribe((message: ITMetricAccount) => {
         if (message) {
           this.accountSelected = message;
@@ -47,5 +49,9 @@ export class ProjectListComponent implements OnInit {
   ngOnDestroy() {
     this.projectListSubscription.unsubscribe();
     this.accountDataServiceSubscription.unsubscribe();
+  }
+
+  doOnSelectChange() {
+    this.dataExchangeService.sendProjectData(this.projectSelected);
   }
 }

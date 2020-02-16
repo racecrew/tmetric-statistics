@@ -1,11 +1,6 @@
 <div class="container-fluid">
-  <h3 class="h3">{{errMsg}}</h3>
-  <form #userForm="ngForm">
-    <div class="form-group">
-      <select class="custom-select" (change)="doOnSelectAccountName()" name="accountName" [(ngModel)]="accountNameSelected">
-        <!--<option selected></option>-->
-        <option *ngFor="let account of accountList">{{ account.accountName }}</option>
-      </select>
-    </div>
-  </form>
+  <h3 class="h3">{{ errMsg }}</h3>
+  <select class="custom-select" (change)="doOnSelectChange()" name="accountDataList" [(ngModel)]="accountSelected">
+    <option *ngFor="let account of accountList" [ngValue]="account">{{ account.accountName }}</option>
+  </select>
 </div>

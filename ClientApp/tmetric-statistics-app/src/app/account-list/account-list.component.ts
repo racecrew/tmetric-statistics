@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ITMetricAccount } from '../../domain/ITMetricAccount'
 import { TMetricUserProfileService } from '../services/TMetricUserProfileService';
-import { AccountDataService } from '../accountdata.service';
+import { DataExchangeService } from '../dataexchange.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-list',
@@ -11,30 +12,29 @@ import { AccountDataService } from '../accountdata.service';
 export class AccountListComponent implements OnInit {
 
   public accountList: ITMetricAccount[];
-  public accountIdSelected: number;
-  public accountNameSelected: string;
+  public accountSelected: ITMetricAccount = null;
   public errorMsg: string;
 
-  constructor(private userProfileService: TMetricUserProfileService, private accountDataService: AccountDataService) { }
+  private userProfileServiceSubscription: Subscription; 
+
+  constructor(
+    private userProfileService: TMetricUserProfileService,
+    private dataExchangeService: DataExchangeService)
+  { }
 
   ngOnInit() {
-    this.userProfileService.getAccounts()
-      .subscribe(data => this.accountList = data,
-        error => this.errorMsg = error
+    this.userProfileServiceSubscription = this.userProfileService.getAccounts()
+      .subscribe(
+        (accountList: ITMetricAccount[]) => { this.accountList = accountList; },
+        (error: string) => { this.errorMsg = error; }
       );
   }
 
-  private getAccountByName(accountName: string) {
-    for (var account of this.accountList) {
-      if (account.accountName == accountName) {
-        this.accountIdSelected = account.accountId;
-        return account;
-      }
-    }
-    return null;
+  ngOnDestroy() {
+    this.userProfileServiceSubscription.unsubscribe();
   }
 
-  doOnSelectAccountName() {
-    this.accountDataService.sendMessage(this.getAccountByName(this.accountNameSelected));
+  doOnSelectChange() {
+    this.dataExchangeService.sendAccountData(this.accountSelected);
   }
 }

@@ -7,5 +7,4 @@ import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'tmetric-statistics-app';
 }

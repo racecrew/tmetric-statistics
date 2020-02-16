@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { DataExchangeService } from '../dataexchange.service';
+import { Subscription } from 'rxjs';
+import { ITMetricProject } from '../../domain/ITMetricProject';
 
 @Component({
   selector: 'app-project-detail',
@@ -8,14 +10,24 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 })
 export class ProjectDetailComponent implements OnInit {
 
-  public projectId;
+  public projectSelected: ITMetricProject = null;
+  public errMsg: string;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  private projectSubscription: Subscription;
+
+  constructor(
+    private dataExchangeServie: DataExchangeService)
+  { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = parseInt(params.get('id'));
-      this.projectId = id;
-    });
+    this.projectSubscription = this.dataExchangeServie.getProjectData()
+      .subscribe(
+        (projectSelected: ITMetricProject) => { this.projectSelected = projectSelected; },
+        (error: any) => { this.errMsg = error; }
+      );
+  }
+
+  ngOnDestroy() {
+    this.projectSubscription.unsubscribe();
   }
 }

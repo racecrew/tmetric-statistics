@@ -1,6 +1,6 @@
-<div>
-  <h3>{{errorMsg}}</h3>
-  <ul (click)="onSelect(project)" *ngFor="let project of projectList">
-    <li>{{project.projectId}} :: {{project.projectName}}</li>
-  </ul>
+<div *ngIf="accountSelected" class="container-fluid">
+  <h3>{{ errorMsg }}</h3>
+  <select class="custom-select" (change)="doOnSelectChange()" name="projectDataList" [(ngModel)]="projectSelected">
+    <option *ngFor="let project of projectList" [ngValue]="project">{{ project.projectName }}</option>
+  </select>
 </div>

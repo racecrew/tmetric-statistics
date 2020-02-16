@@ -1,1 +1,23 @@
-<div>The selected project has an ID {{projectId}}</div>
+<div *ngIf="projectSelected" class="container-fluid">
+  <h3 class="h3">{{ errMsg }}</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">clientId</th>
+        <th scope="col">accountId</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ projectSelected.projectId }}</td>
+        <td>{{ projectSelected.projectName }}</td>
+        <td>{{ projectSelected.projectStatus }}</td>
+        <td>{{ projectSelected.clientId }}</td>
+        <td>{{ projectSelected.accountId }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
