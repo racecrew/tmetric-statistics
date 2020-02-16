@@ -25,7 +25,7 @@ export class ProjectListComponent implements OnInit {
     private projectService: TMetricProjectService,
     private router: Router,
     private dataExchangeService: DataExchangeService)
-  {  }
+  { }
 
   ngOnInit() {
     this.accountDataServiceSubscription = this.dataExchangeService.getAccountData()
@@ -39,11 +39,13 @@ export class ProjectListComponent implements OnInit {
         if (this.accountSelected) {
           this.projectListSubscription = this.projectService.getProjects(this.accountSelected.accountId)
             .subscribe(
-              (projects: ITMetricProject[]) => { this.projectList = projects },
+              (projects: ITMetricProject[]) => {
+                this.projectList = projects;
+              },
               (error: any) => { this.errorMsg = error }
             );
         }      
-    });
+      });
   }
 
   ngOnDestroy() {

@@ -25,9 +25,11 @@ export class AccountListComponent implements OnInit {
   ngOnInit() {
     this.userProfileServiceSubscription = this.userProfileService.getAccounts()
       .subscribe(
-        (accountList: ITMetricAccount[]) => { this.accountList = accountList; },
+        (accountList: ITMetricAccount[]) => {
+          this.accountList = accountList;
+        },
         (error: string) => { this.errorMsg = error; }
-      );
+    );
   }
 
   ngOnDestroy() {
@@ -36,5 +38,6 @@ export class AccountListComponent implements OnInit {
 
   doOnSelectChange() {
     this.dataExchangeService.sendAccountData(this.accountSelected);
+    this.dataExchangeService.clearProjectData();
   }
 }

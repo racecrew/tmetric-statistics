@@ -22,7 +22,9 @@ export class ProjectDetailComponent implements OnInit {
   ngOnInit() {
     this.projectSubscription = this.dataExchangeServie.getProjectData()
       .subscribe(
-        (projectSelected: ITMetricProject) => { this.projectSelected = projectSelected; },
+        (projectSelected: ITMetricProject) => {
+          this.projectSelected = projectSelected;
+        },
         (error: any) => { this.errMsg = error; }
       );
   }

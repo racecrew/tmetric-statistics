@@ -19,11 +19,19 @@ export class DataExchangeService {
     return this.accountSubject.asObservable();
   }
 
+  clearAccountData() {
+    this.accountSubject.next();
+  }
+
   sendProjectData(projectData: ITMetricProject) {
     this.projectSubject.next(projectData);
   }
 
   getProjectData(): Observable<ITMetricProject> {
     return this.projectSubject.asObservable();
+  }
+
+  clearProjectData() {
+    this.projectSubject.next();
   }
 }
