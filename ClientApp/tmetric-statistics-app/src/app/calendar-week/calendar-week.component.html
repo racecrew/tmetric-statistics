@@ -1,0 +1,28 @@
+<div *ngIf="calendarWeekData" class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Calendar Week</th>
+        <th scope="col">Planned hours</th>
+        <th scope="col">Actual hours</th>
+        <th scope="col">Overtime</th>
+        <th scope="col">Sick leave</th>
+        <th scope="col">Holidays</th>
+        <th scope="col">Bridge day</th>
+        <th scope="col">Public holiday</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let calendarWeekDataItem of calendarWeekData">
+        <td>{{ calendarWeekDataItem.calendarWeek }} ({{ calendarWeekDataItem.startOfCalendarWeek }} - {{ calendarWeekDataItem.endOfCalendarWeek }})</td>
+        <td>{{ calendarWeekDataItem.plannedHours }}</td>
+        <td>{{ calendarWeekDataItem.actualHours }}</td>
+        <td>{{ calendarWeekDataItem.overtime }}</td>
+        <td>{{ calendarWeekDataItem.sickLeave }}</td>
+        <td>{{ calendarWeekDataItem.holidays }}</td>
+        <td>{{ calendarWeekDataItem.bridgeDay }}</td>
+        <td>{{ calendarWeekDataItem.publicHoliday }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
