@@ -15,6 +15,8 @@ import { map } from 'rxjs/operators';
 })
 export class CalendarWeekComponent implements OnInit {
 
+  public overallOvertime: number;
+  public overallOvertimeWithoutCurrentWeek: number;
   public calendarWeekData: CalendarWeekData[] = [];
   public errorMsg: string;
 
@@ -30,6 +32,8 @@ export class CalendarWeekComponent implements OnInit {
   { }
 
   private doInit() {
+    this.overallOvertime = 0; // reset overtime
+    this.overallOvertimeWithoutCurrentWeek = 0; // reset overtime
     this.calendarWeekData.length = 0; // clear array
 
     let today = this.dateTimeService.getDateNow();
@@ -45,6 +49,12 @@ export class CalendarWeekComponent implements OnInit {
         .subscribe(
           (calendarWeekData: CalendarWeekData) => {
             calendarWeekData.calendarWeek = cwNumber;
+
+            this.overallOvertime = this.overallOvertime + calendarWeekData.overtime;
+
+            if ((currentCW - i) != 0 && (calendarWeekData.overtime != -40)) {
+              this.overallOvertimeWithoutCurrentWeek = this.overallOvertimeWithoutCurrentWeek + calendarWeekData.overtime;
+            }
 
             this.calendarWeekData.push(calendarWeekData);
             this.calendarWeekData.sort(function (a, b) { return b.calendarWeek - a.calendarWeek; });
