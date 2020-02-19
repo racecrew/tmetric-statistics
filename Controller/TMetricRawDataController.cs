@@ -56,5 +56,21 @@ namespace tmetricstatistics.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet("calendarweekdata")]
+        public async Task<IActionResult> GetCalendarWeekDataAsync(int accountId, int userProfileId, DateTime startDateTime, DateTime endDateTime)
+        {
+            CalendarWeekData calendarWeekData = await rawDataServices.GetCalendarWeekDataAsync(accountId, userProfileId, startDateTime, endDateTime);
+
+            if (calendarWeekData != null)
+            {
+                return Ok(calendarWeekData);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

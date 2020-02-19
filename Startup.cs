@@ -61,8 +61,6 @@ namespace tmetricstatistics
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
         {
-            dbContext.Database.EnsureCreated();
-
             app.Use(async (HttpContext context, Func<Task> next) =>
             {
                 await next.Invoke();

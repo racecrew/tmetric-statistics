@@ -9,7 +9,7 @@ namespace tmetricstatistics.Data
         {
         }
 
-        public DbSet<TimeEntries> TimeEntries { get; set; }
+        public DbSet<WorkingHours> TimeEntries { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<AppConfig> AppConfig { get; set; }
     }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using tmetricstatistics.Model;
 using System.Text.Json;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace tmetricstatistics.Services
 {
@@ -33,7 +35,7 @@ namespace tmetricstatistics.Services
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                _projects = await JsonSerializer.DeserializeAsync<List<Project>>(responseStream);
+                _projects = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Project>>(responseStream);
             }
             return _projects;
         }
@@ -46,9 +48,35 @@ namespace tmetricstatistics.Services
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                _accounts = await JsonSerializer.DeserializeAsync<List<Account>>(responseStream);
+                _accounts = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Account>>(responseStream);
             }
             return _accounts;
         }
+
+        public async Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, DateTime startDateTime, DateTime endDateTime)
+        {
+            var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/timeentries/" + userProfileId + "?timeRange.startTime=" + startDateTime.ToString("yyyy-MM-dd") + "&timeRange.endTime=" + endDateTime.ToString("yyyy-MM-dd"));
+            CalendarWeekData calendarWeekData = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json_result = await response.Content.ReadAsStringAsync();
+                dynamic json_result_dyn = Newtonsoft.Json.JsonConvert.DeserializeObject(json_result);
+                
+                calendarWeekData = new CalendarWeekData();
+                calendarWeekData.actualHours = 0;
+                foreach (var item in json_result_dyn)
+                {
+                    string startTimeAsString = item.startTime;
+                    string endTimeAsString = item.endTime;
+                    DateTime startTime = DateTime.ParseExact(startTimeAsString.Trim(), "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime endTime = DateTime.ParseExact(endTimeAsString.Trim(), "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    TimeSpan ts = endTime.Subtract(startTime);
+                    calendarWeekData.actualHours = calendarWeekData.actualHours + ts.TotalHours;
+                }
+            }
+            return calendarWeekData;
+        }
+
     }
 }
