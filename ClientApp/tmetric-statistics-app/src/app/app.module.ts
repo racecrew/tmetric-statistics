@@ -10,6 +10,7 @@ import { TMetricProjectService } from './Services/TMetricProjectService';
 import { TMetricUserProfileService } from './services/TMetricUserProfileService';
 import { CalendarWeekComponent } from './calendar-week/calendar-week.component';
 import { DateTimeService } from './Services/DateTimeService';
+import { TMetricTimeDataService } from './services/TMetricTimeDataService';
 
 registerLocaleData(localeDe);
 
@@ -30,6 +31,7 @@ registerLocaleData(localeDe);
     TMetricUserProfileService,
     DatePipe,
     DateTimeService,
+    TMetricTimeDataService,
     { provide: LOCALE_ID, useValue: 'de' }
   ],
   bootstrap: [AppComponent]

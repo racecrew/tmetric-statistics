@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { ITMetricAccount } from '../domain/ITMetricAccount';
 import { ITMetricProject } from '../domain/ITMetricProject';
+import { CalendarWeekData } from '../domain/CalendarWeekData';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class DataExchangeService {
 
   private accountSubject = new Subject<ITMetricAccount>();
   private projectSubject = new Subject<ITMetricProject>();
+  private calendarWeekDataSubject = new Subject<CalendarWeekData>();
  
   sendAccountData(accountData: ITMetricAccount) {
     this.accountSubject.next(accountData);
@@ -34,4 +36,17 @@ export class DataExchangeService {
   clearProjectData() {
     this.projectSubject.next();
   }
+
+  sendCalendarWeekData(calendarWeekData: CalendarWeekData) {
+    this.calendarWeekDataSubject.next(calendarWeekData);
+  }
+
+  getCalendarWeekData(): Observable<CalendarWeekData> {
+    return this.calendarWeekDataSubject.asObservable();
+  }
+
+  clearCalendarWeekData() {
+    this.calendarWeekDataSubject.next();
+  }
+
 }

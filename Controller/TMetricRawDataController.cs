@@ -58,9 +58,9 @@ namespace tmetricstatistics.Controllers
         }
 
         [HttpGet("calendarweekdata")]
-        public async Task<IActionResult> GetCalendarWeekDataAsync(int accountId, int userProfileId, DateTime startDateTime, DateTime endDateTime)
+        public async Task<IActionResult> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek)
         {
-            CalendarWeekData calendarWeekData = await rawDataServices.GetCalendarWeekDataAsync(accountId, userProfileId, startDateTime, endDateTime);
+            CalendarWeekData calendarWeekData = await rawDataServices.GetCalendarWeekDataAsync(accountId, userProfileId, startOfCalendarWeek, endOfCalendarWeek);
 
             if (calendarWeekData != null)
             {

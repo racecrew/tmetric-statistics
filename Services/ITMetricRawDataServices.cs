@@ -9,6 +9,6 @@ namespace tmetricstatistics.Services
     {
         public Task<List<Project>> GetAllProjectsAsync(int accountId);
         public Task<List<Account>> GetAllAccountsAsync();
-        public Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, DateTime startDateTime, DateTime endDateTime);
+        public Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek);
     }
 }

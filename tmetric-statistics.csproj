@@ -11,6 +11,7 @@
     <None Remove="ClientApp\tmetric-statistics-app\src\app\app-routing.module.ts" />
     <None Remove="ClientApp\tmetric-statistics-app\src\app\services\DateTimeService.ts" />
     <None Remove="ClientApp\tmetric-statistics-app\src\app\services\TMetricProjectService.ts" />
+    <None Remove="ClientApp\tmetric-statistics-app\src\app\services\TMetricTimeDataService.ts" />
     <None Remove="ClientApp\tmetric-statistics-app\src\app\services\TMetricUserProfileService.ts" />
     <None Remove="ClientApp\tmetric-statistics-app\src\domain\CalendarWeekData.ts" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\app-routing.module.ts" />
     <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\services\DateTimeService.ts" />
     <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\services\TMetricProjectService.ts" />
+    <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\services\TMetricTimeDataService.ts" />
     <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\app\services\TMetricUserProfileService.ts" />
     <TypeScriptCompile Include="ClientApp\tmetric-statistics-app\src\domain\CalendarWeekData.ts" />
   </ItemGroup>

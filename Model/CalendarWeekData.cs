@@ -12,7 +12,7 @@ namespace tmetricstatistics.Model
         public String endOfCalendarWeek { get; set; }
         public double plannedHours { get; set; }
         public double actualHours { get; set; }
-        public int overtime { get; set; }
+        public double overtime { get; set; }
         public int sickLeave { get; set; }
         public int holidays { get; set; }
         public int bridgeDay { get; set; }

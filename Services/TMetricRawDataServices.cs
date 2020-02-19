@@ -53,9 +53,9 @@ namespace tmetricstatistics.Services
             return _accounts;
         }
 
-        public async Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, DateTime startDateTime, DateTime endDateTime)
+        public async Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek)
         {
-            var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/timeentries/" + userProfileId + "?timeRange.startTime=" + startDateTime.ToString("yyyy-MM-dd") + "&timeRange.endTime=" + endDateTime.ToString("yyyy-MM-dd"));
+            var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/timeentries/" + userProfileId + "?timeRange.startTime=" + startOfCalendarWeek + "&timeRange.endTime=" + endOfCalendarWeek);
             CalendarWeekData calendarWeekData = null;
 
             if (response.IsSuccessStatusCode)
@@ -74,6 +74,11 @@ namespace tmetricstatistics.Services
                     TimeSpan ts = endTime.Subtract(startTime);
                     calendarWeekData.actualHours = calendarWeekData.actualHours + ts.TotalHours;
                 }
+                calendarWeekData.actualHours = Math.Round(calendarWeekData.actualHours, 2);
+                calendarWeekData.plannedHours = 40;
+                calendarWeekData.overtime = Math.Round(calendarWeekData.actualHours - calendarWeekData.plannedHours, 2);
+                calendarWeekData.startOfCalendarWeek = startOfCalendarWeek;
+                calendarWeekData.endOfCalendarWeek = endOfCalendarWeek;
             }
             return calendarWeekData;
         }

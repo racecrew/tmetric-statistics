@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpParams, HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ITMetricProject } from '../../domain/ITMetricProject';
 import { Observable, throwError } from 'rxjs';
+import { CalendarWeekData } from '../../domain/CalendarWeekData';
 import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
-export class TMetricProjectService {
-  private _urlProjects: string = "/api/v1/projects";
+export class TMetricTimeDataService {
+  private _urlCalendarWeekData: string = "/api/v1/calendarweekdata";
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
-  getProjects(accountId: number): Observable<ITMetricProject[]> {
+  getCalendarWeekData(accountId: number, userProfileId: number, startOfCalendarWeek: string, endOfCalendarWeek: string): Observable<CalendarWeekData> {
+
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    headers.append('accountId', accountId.toString());
 
-    let params = new HttpParams().set('accountId', accountId.toString());
+    let params = new HttpParams()
+      .set('accountId', accountId.toString())
+      .set('userProfileId', userProfileId.toString())
+      .set('startOfCalendarWeek', startOfCalendarWeek)
+      .set('endOfCalendarWeek', endOfCalendarWeek);
 
-    return this.httpClient.get<ITMetricProject[]>(this._urlProjects, { headers: headers, params: params })
+    return this.httpClient.get<CalendarWeekData>(this._urlCalendarWeekData, { headers: headers, params: params })
       .pipe(catchError(this.handleError));
   }
 
