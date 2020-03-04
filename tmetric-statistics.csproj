@@ -8,6 +8,12 @@
     <UserSecretsId>d7b79864-488f-455b-9160-11bedb2bb18e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Tests\**" />
+    <Content Remove="Tests\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Tests\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="ClientApp\tmetric-statistics-app\src\app\app-routing.module.ts" />
     <None Remove="ClientApp\tmetric-statistics-app\src\app\services\DateTimeService.ts" />
     <None Remove="ClientApp\tmetric-statistics-app\src\app\services\TMetricProjectService.ts" />

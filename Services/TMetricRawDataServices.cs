@@ -27,6 +27,10 @@ namespace tmetricstatistics.Services
             this.httpClientFactory = httpClientFactory;
         }
 
+        public TMetricRawDataServices()
+        {
+        }
+
         public async Task<List<Project>> GetAllProjectsAsync(int accountId)
         {
             var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/projects");
@@ -81,6 +85,11 @@ namespace tmetricstatistics.Services
                 calendarWeekData.endOfCalendarWeek = endOfCalendarWeek;
             }
             return calendarWeekData;
+        }
+
+        public async Task<TimeEntry> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime)
+        {
+            throw new NotImplementedException("Not implemented.");
         }
 
     }
