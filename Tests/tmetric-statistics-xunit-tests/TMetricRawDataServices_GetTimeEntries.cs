@@ -1,5 +1,8 @@
 ﻿using Xunit;
 using tmetricstatistics.Services;
+using System.Threading.Tasks;
+using tmetricstatistics.Model;
+using System.Collections.Generic;
 
 namespace tmetric_statistics_xunit_tests
 {
@@ -9,19 +12,21 @@ namespace tmetric_statistics_xunit_tests
         private readonly ConfigurationFixture _configurationFixture;
 
         public TMetricRawDataServices_GetTimeEntries()
-        {
-            _service = new TMetricRawDataServices();
+        {   
             this._configurationFixture = new ConfigurationFixture();
+            _service = new TMetricRawDataServices(_configurationFixture.httpClientFactory);
         }
 
         [Fact]
-        public void Test_TMetricRawDataServices_GetTimeEntries()
+        public async Task Test_TMetricRawDataServices_GetTimeEntries()
         {
-            int.TryParse(_configurationFixture.Configuration["TMetricAccountId"], out int accountId);
+            int.TryParse(_configurationFixture.Configuration["TMetricAccountId_PRIVATE"], out int accountId);
             int.TryParse(_configurationFixture.Configuration["TMetricUserProfileId"], out int userProfileId);
             string timeRangeStartTime = "2020-03-01";
             string timeRangeEndTime = "2020-03-03";
-            var result = _service.GetTimeEntries(accountId, userProfileId, timeRangeStartTime, timeRangeEndTime);
+            List<TimeEntry> timeEntries = await _service.GetTimeEntries(accountId, userProfileId, timeRangeStartTime, timeRangeEndTime);
+            
+            Assert.True(timeEntries.Count > 0);
         }
 
     }

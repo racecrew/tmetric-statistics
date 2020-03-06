@@ -11,6 +11,6 @@ namespace tmetricstatistics.Services
         public Task<List<Account>> GetAllAccountsAsync();
         public Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek);
 
-        public Task<TimeEntry> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime);
+        public Task<List<TimeEntry>> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime);
     }
 }

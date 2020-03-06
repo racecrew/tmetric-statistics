@@ -87,9 +87,31 @@ namespace tmetricstatistics.Services
             return calendarWeekData;
         }
 
-        public async Task<TimeEntry> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime)
+        public async Task<List<TimeEntry>> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime)
         {
-            throw new NotImplementedException("Not implemented.");
+            var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/timeentries/" + userProfileId + "?timeRange.startTime=" + timeRangeStartTime + "&timeRange.endTime=" + timeRangeEndTime);
+            List<TimeEntry> timeEntries = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json_result = await response.Content.ReadAsStringAsync();
+                dynamic json_result_dyn = Newtonsoft.Json.JsonConvert.DeserializeObject(json_result);
+
+                timeEntries = new List<TimeEntry>();
+                foreach (var item in json_result_dyn)
+                {
+                    TimeEntry timeEntry = new TimeEntry();
+                    timeEntry.startTime = item.startTime;
+                    timeEntry.endTime = item.endTime;
+                    timeEntry.projectId = item.details.projectId;
+                    timeEntry.description = item.details.description;
+                    timeEntry.projectName = item.projectName;
+                    timeEntry.timeEntryId = item.timeEntryId;
+
+                    timeEntries.Add(timeEntry);
+                }
+            }
+            return timeEntries;
         }
 
     }
