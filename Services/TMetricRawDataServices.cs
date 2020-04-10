@@ -114,5 +114,48 @@ namespace tmetricstatistics.Services
             return timeEntries;
         }
 
+        public async Task<List<Tag>> GetTags(int accountId, int userProfileId)
+        {
+            var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/tags");
+            List<Tag> tags = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json_result = await response.Content.ReadAsStringAsync();
+                dynamic json_result_dyn = Newtonsoft.Json.JsonConvert.DeserializeObject(json_result);
+
+                tags = new List<Tag>();
+                foreach (var item in json_result_dyn)
+                {
+                    Tag tag = new Tag();
+                    tag.tagId = item.tagId;
+                    tag.tagName = item.tagName;
+
+                    tags.Add(tag);
+                }
+            }
+
+            return tags;
+        }
+        public async Task<Tag> GetTagByName(int accountId, int userProfileId, string tagName)
+        {
+            List<Tag> tags = await GetTags(accountId, userProfileId);
+            Tag resultTag = null;
+
+            if (tags != null)
+            {
+                foreach (Tag tag in tags)
+                {
+                    if (tag.tagName.Equals(tagName))
+                    {
+                        resultTag = tag;
+                        break;
+                    }
+                }
+            };
+
+            return resultTag;
+        }
+
     }
 }
