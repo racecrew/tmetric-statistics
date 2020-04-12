@@ -30,7 +30,7 @@ namespace tmetricstatistics.Controllers
                 accountId = int.Parse(configuration["TMetricAccountId"]);
             }
 
-            List<Project> projects = await rawDataServices.GetAllProjectsAsync(accountId);
+            List<Project> projects = await rawDataServices.GetProjects(accountId);
 
             if (projects != null)
             {
@@ -45,7 +45,7 @@ namespace tmetricstatistics.Controllers
         [HttpGet("accounts")]
         public async Task<IActionResult> GetAllAccountsAsync()
         {
-            List<Account> accounts = await rawDataServices.GetAllAccountsAsync();
+            List<Account> accounts = await rawDataServices.GetAccounts();
 
             if (accounts != null)
             {
@@ -60,7 +60,7 @@ namespace tmetricstatistics.Controllers
         [HttpGet("calendarweekdata")]
         public async Task<IActionResult> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek)
         {
-            CalendarWeekData calendarWeekData = await rawDataServices.GetCalendarWeekDataAsync(accountId, userProfileId, startOfCalendarWeek, endOfCalendarWeek);
+            CalendarWeekData calendarWeekData = await rawDataServices.GetCalendarWeekData(accountId, userProfileId, startOfCalendarWeek, endOfCalendarWeek);
 
             if (calendarWeekData != null)
             {

@@ -30,22 +30,22 @@ namespace tmetricstatistics.Services
         {
         }
 
-        public async Task<List<Project>> GetAllProjectsAsync(int accountId)
+        public async Task<List<Project>> GetProjects(int accountId)
         {
             var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/projects");
-            List<Project> _projects = null;
+            List<Project> projects = null;
 
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                _projects = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Project>>(responseStream);
+                projects = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Project>>(responseStream);
             }
-            return _projects;
+            return projects;
         }
 
         public async Task<Project> GetProjectByName(int accountId, string projectName)
         {
-            List<Project> projects = await GetAllProjectsAsync(accountId);
+            List<Project> projects = await GetProjects(accountId);
             Project returnProject = null;
             foreach (Project project in projects)
             {
@@ -58,20 +58,20 @@ namespace tmetricstatistics.Services
             return returnProject;
         }
 
-        public async Task<List<Account>> GetAllAccountsAsync()
+        public async Task<List<Account>> GetAccounts()
         {
             var response = await GetHttpResponseMessage(HttpMethod.Get, "api/userprofile/accounts");
-            List<Account> _accounts = null;
+            List<Account> accounts = null;
 
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                _accounts = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Account>>(responseStream);
+                accounts = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Account>>(responseStream);
             }
-            return _accounts;
+            return accounts;
         }
 
-        public async Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek)
+        public async Task<CalendarWeekData> GetCalendarWeekData(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek)
         {
             var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/timeentries/" + userProfileId + "?timeRange.startTime=" + startOfCalendarWeek + "&timeRange.endTime=" + endOfCalendarWeek);
             CalendarWeekData calendarWeekData = null;
