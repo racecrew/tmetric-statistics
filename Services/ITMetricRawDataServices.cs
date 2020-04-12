@@ -12,7 +12,7 @@ namespace tmetricstatistics.Services
         public Task<List<Account>> GetAccounts();
         public Task<CalendarWeekData> GetCalendarWeekData(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek);
         public Task<List<TimeEntry>> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime);
-        public void CreateTimeEntries(int accountId, int userProfileId, List<TimeEntry> timeEntries);
+        public Task<bool> CreateTimeEntries(int accountId, int userProfileId, List<TimeEntry> timeEntries);
         public Task<List<Tag>> GetTags(int accountId, int userProfileId);
         public Task<Tag> GetTagByName(int accountId, int userProfileId, string tagName);
     }
