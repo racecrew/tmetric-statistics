@@ -8,9 +8,11 @@ namespace tmetricstatistics.Services
     public interface ITMetricRawDataServices
     {
         public Task<List<Project>> GetAllProjectsAsync(int accountId);
+        public Task<Project> GetProjectByName(int accountId, string projectName);
         public Task<List<Account>> GetAllAccountsAsync();
         public Task<CalendarWeekData> GetCalendarWeekDataAsync(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek);
         public Task<List<TimeEntry>> GetTimeEntries(int accountId, int userProfileId, string timeRangeStartTime, string timeRangeEndTime);
+        public void CreateTimeEntries(int accountId, int userProfileId, List<TimeEntry> timeEntries);
         public Task<List<Tag>> GetTags(int accountId, int userProfileId);
         public Task<Tag> GetTagByName(int accountId, int userProfileId, string tagName);
     }

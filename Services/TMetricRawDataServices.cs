@@ -4,15 +4,14 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using tmetricstatistics.Model;
 using System.Text.Json;
-using Newtonsoft.Json;
 using System.Globalization;
+using System.Linq;
 
 namespace tmetricstatistics.Services
 {
     public class TMetricRawDataServices : ITMetricRawDataServices
     {
         private const String c_httpClientName = "tmetricrawdata";
-
         private readonly IHttpClientFactory httpClientFactory;
 
         private async Task<HttpResponseMessage> GetHttpResponseMessage(HttpMethod httpMethod, string uri)
@@ -42,6 +41,21 @@ namespace tmetricstatistics.Services
                 _projects = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Project>>(responseStream);
             }
             return _projects;
+        }
+
+        public async Task<Project> GetProjectByName(int accountId, string projectName)
+        {
+            List<Project> projects = await GetAllProjectsAsync(accountId);
+            Project returnProject = null;
+            foreach (Project project in projects)
+            {
+                if (project.projectName.Equals(projectName))
+                {
+                    returnProject = project;
+                    break;
+                }
+            }
+            return returnProject;
         }
 
         public async Task<List<Account>> GetAllAccountsAsync()
@@ -95,23 +109,42 @@ namespace tmetricstatistics.Services
             if (response.IsSuccessStatusCode)
             {
                 string json_result = await response.Content.ReadAsStringAsync();
-                dynamic json_result_dyn = Newtonsoft.Json.JsonConvert.DeserializeObject(json_result);
+                timeEntries = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TimeEntry>>(json_result);
 
-                timeEntries = new List<TimeEntry>();
-                foreach (var item in json_result_dyn)
+                bool hasAtLeastOneTagIdentifier = false;
+                if (timeEntries != null)
                 {
-                    TimeEntry timeEntry = new TimeEntry();
-                    timeEntry.startTime = item.startTime;
-                    timeEntry.endTime = item.endTime;
-                    timeEntry.projectId = item.details.projectId;
-                    timeEntry.description = item.details.description;
-                    timeEntry.projectName = item.projectName;
-                    timeEntry.timeEntryId = item.timeEntryId;
+                    foreach (TimeEntry timeEntry in timeEntries)
+                    {
+                        if (timeEntry.tagsIdentifiers.Count() > 0)
+                        {
+                            hasAtLeastOneTagIdentifier = true;
+                            break;
+                        }
+                    }
+                }
 
-                    timeEntries.Add(timeEntry);
+                Dictionary<int, Tag> tagsDict = null; // <name, Tag>
+                if (hasAtLeastOneTagIdentifier)
+                {
+                    List<Tag> tags = await GetTags(accountId, userProfileId);
+                    tagsDict = tags.ToDictionary(key => key.tagId, element => element);
+                }
+
+                foreach (TimeEntry timeEntry in timeEntries)
+                {
+                    foreach (int tagIdentifier in timeEntry.tagsIdentifiers)
+                    {
+                        timeEntry.Tags.Add(tagsDict[tagIdentifier]);
+                    }
                 }
             }
             return timeEntries;
+        }
+
+        public void CreateTimeEntries(int accountId, int userProfileId, List<TimeEntry> timeEntries)
+        {
+            string json = JsonSerializer.Serialize(timeEntries);
         }
 
         public async Task<List<Tag>> GetTags(int accountId, int userProfileId)
@@ -122,25 +155,16 @@ namespace tmetricstatistics.Services
             if (response.IsSuccessStatusCode)
             {
                 string json_result = await response.Content.ReadAsStringAsync();
-                dynamic json_result_dyn = Newtonsoft.Json.JsonConvert.DeserializeObject(json_result);
-
-                tags = new List<Tag>();
-                foreach (var item in json_result_dyn)
-                {
-                    Tag tag = new Tag();
-                    tag.tagId = item.tagId;
-                    tag.tagName = item.tagName;
-
-                    tags.Add(tag);
-                }
+                tags = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Tag>>(json_result);
             }
 
             return tags;
         }
+
         public async Task<Tag> GetTagByName(int accountId, int userProfileId, string tagName)
         {
             List<Tag> tags = await GetTags(accountId, userProfileId);
-            Tag resultTag = null;
+            Tag returnTag = null;
 
             if (tags != null)
             {
@@ -148,14 +172,13 @@ namespace tmetricstatistics.Services
                 {
                     if (tag.tagName.Equals(tagName))
                     {
-                        resultTag = tag;
+                        returnTag = tag;
                         break;
                     }
                 }
             };
 
-            return resultTag;
+            return returnTag;
         }
-
     }
 }

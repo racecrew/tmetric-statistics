@@ -47,7 +47,4 @@
       <UserProperties clientapp_4angular_1json__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="cd .\ClientApp&#xD;&#xA;C:\Users\$(USERNAME)\AppData\Roaming\npm\ng.cmd build" />
-  </Target>
 </Project>

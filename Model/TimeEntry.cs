@@ -10,8 +10,14 @@ namespace tmetricstatistics.Model
         public int timeEntryId { get; set; }
         public string startTime { get; set; }
         public string endTime { get; set; }
-        public string description { get; set; }
-        public int projectId { get; set; }
         public string projectName { get; set; }
+        public Details details { get; set; }
+        public List<int> tagsIdentifiers { get; set; }
+        public List<Tag> Tags { get; set; }
+
+        public TimeEntry()
+        {
+            Tags = new List<Tag>();
+        }
     }
 }
