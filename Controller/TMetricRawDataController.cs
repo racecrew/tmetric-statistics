@@ -72,5 +72,19 @@ namespace tmetricstatistics.Controllers
             }
         }
 
+        [HttpPost("createtimeentries")]
+        public async Task<IActionResult> CreateTimeEntries(int accountId, int userProfileId, List<TimeEntry> timeEntries)
+        {
+            bool isCreated = await rawDataServices.CreateTimeEntries(accountId, userProfileId, timeEntries);
+
+            if (isCreated)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

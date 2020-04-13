@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Unicode;
+using Newtonsoft.Json.Converters;
 
 namespace tmetricstatistics.Services
 {
@@ -78,22 +79,17 @@ namespace tmetricstatistics.Services
 
         public async Task<CalendarWeekData> GetCalendarWeekData(int accountId, int userProfileId, string startOfCalendarWeek, string endOfCalendarWeek)
         {
-            var response = await GetHttpResponseMessage(HttpMethod.Get, "api/accounts/" + accountId + "/timeentries/" + userProfileId + "?timeRange.startTime=" + startOfCalendarWeek + "&timeRange.endTime=" + endOfCalendarWeek);
+            List<TimeEntry> timeEntries = await GetTimeEntries(accountId, userProfileId, startOfCalendarWeek, endOfCalendarWeek);
             CalendarWeekData calendarWeekData = null;
 
-            if (response.IsSuccessStatusCode)
+            if (timeEntries != null)
             {
-                string json_result = await response.Content.ReadAsStringAsync();
-                dynamic json_result_dyn = Newtonsoft.Json.JsonConvert.DeserializeObject(json_result);
-                
                 calendarWeekData = new CalendarWeekData();
                 calendarWeekData.actualHours = 0;
-                foreach (var item in json_result_dyn)
+                foreach (TimeEntry timeEntry in timeEntries)
                 {
-                    string startTimeAsString = item.startTime;
-                    string endTimeAsString = item.endTime;
-                    DateTime startTime = DateTime.ParseExact(startTimeAsString.Trim(), "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                    DateTime endTime = DateTime.ParseExact(endTimeAsString.Trim(), "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime startTime = DateTime.ParseExact(timeEntry.startTime, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+                    DateTime endTime = DateTime.ParseExact(timeEntry.endTime, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
                     TimeSpan ts = endTime.Subtract(startTime);
                     calendarWeekData.actualHours = calendarWeekData.actualHours + ts.TotalHours;
                 }
