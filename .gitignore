@@ -544,3 +544,4 @@ tmetric.db
 ClientApp/.editorconfig
 wwwroot/
 *.bak
+/appsettings.Development.json

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using tmetricstatistics.Model;
-using tmetricstatistics.Data;
 using tmetricstatistics.Services;
 using Microsoft.Extensions.Configuration;
 
@@ -16,7 +15,7 @@ namespace tmetricstatistics.Controllers
         private readonly ITMetricRawDataServices rawDataServices;
         private readonly IConfiguration configuration;
 
-        public TMetricRawDataController(ApplicationDbContext dataContext, ITMetricRawDataServices rawDataServices, IConfiguration configuration)
+        public TMetricRawDataController(ITMetricRawDataServices rawDataServices, IConfiguration configuration)
         {
             this.rawDataServices = rawDataServices;
             this.configuration = configuration;
@@ -27,7 +26,7 @@ namespace tmetricstatistics.Controllers
         {
             if (accountId == 0)
             {
-                accountId = int.Parse(configuration["TMetricAccountId"]);
+                accountId = int.Parse(configuration["TMetric:AccountId"]);
             }
 
             List<Project> projects = await rawDataServices.GetProjects(accountId);

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using tmetricstatistics.Data;
 using tmetricstatistics.Services;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -17,24 +15,15 @@ namespace tmetricstatistics
 {
     public class Startup
     {
-        public Startup(IWebHostEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public IConfiguration _cfg { get; }
+        public Startup(IWebHostEnvironment env, IConfiguration cfg)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json",
-                             optional: false,
-                             reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            Configuration = builder.Build();
+            _env = env;
+            _cfg = cfg;
+            var builder = new ConfigurationBuilder();
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -43,23 +32,21 @@ namespace tmetricstatistics
             services.AddMvc()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddSingleton<ITMetricRawDataServices, TMetricRawDataServices>();
 
-            string BaseUri = Configuration.GetSection("AppCfg").GetSection("BaseUri").Value;
+            string BaseUri = _cfg["TMetric:BaseUri"];
 
             services.AddHttpClient("tmetricrawdata", c =>
             {
                 c.BaseAddress = new Uri(BaseUri);
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("User-Agent", "tmetric-statistics");
-                c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Configuration["TMetricBearerToken"]);
+                c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _cfg["TMetric:BearerToken"]);
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
+        public void Configure(IApplicationBuilder app)
         {
             app.Use(async (HttpContext context, Func<Task> next) =>
             {
@@ -73,7 +60,7 @@ namespace tmetricstatistics
             });
 
 
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             } else
