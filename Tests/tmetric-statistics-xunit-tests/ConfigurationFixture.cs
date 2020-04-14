@@ -18,19 +18,19 @@ namespace tmetric_statistics_xunit_tests
         public ConfigurationFixture()
         {
             var builder = new ConfigurationBuilder();
-            builder.AddUserSecrets<ConfigurationFixture>();
+            builder.AddJsonFile("appsettings.Development.json");
             Configuration = builder.Build();
 
             services = new ServiceCollection();
 
-            string BaseUri = "https://app.tmetric.com";
+            string BaseUri = Configuration["TMetric:BaseUri"];
       
             services.AddHttpClient("tmetricrawdata", c =>
             {
                 c.BaseAddress = new Uri(BaseUri);
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 c.DefaultRequestHeaders.Add("User-Agent", "tmetric-statistics");
-                c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Configuration["TMetricBearerToken"]);
+                c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Configuration["TMetric:BearerToken"]);
             });
 
             provider = services.BuildServiceProvider();

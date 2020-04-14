@@ -20,8 +20,8 @@ namespace tmetric_statistics_xunit_tests
         [Fact]
         public async Task Test_TMetricRawDataServices_GetTimeEntries()
         {
-            int.TryParse(_configurationFixture.Configuration["TMetricAccountId_PRIVATE"], out int accountId);
-            int.TryParse(_configurationFixture.Configuration["TMetricUserProfileId"], out int userProfileId);
+            int.TryParse(_configurationFixture.Configuration["TMetric:AccountId"], out int accountId);
+            int.TryParse(_configurationFixture.Configuration["TMetric:UserProfileId"], out int userProfileId);
             string timeRangeStartTime = "2020-03-01";
             string timeRangeEndTime = "2020-04-12";
             List<TimeEntry> timeEntries = await _service.GetTimeEntries(accountId, userProfileId, timeRangeStartTime, timeRangeEndTime);

@@ -21,8 +21,8 @@ namespace tmetric_statistics_xunit_tests
         [Fact]
         public async Task Test_TMetricRawDataServices_CreateTimeEntries()
         {
-            int.TryParse(_configurationFixture.Configuration["TMetricAccountId_PRIVATE"], out int accountId);
-            int.TryParse(_configurationFixture.Configuration["TMetricUserProfileId"], out int userProfileId);
+            int.TryParse(_configurationFixture.Configuration["TMetric:AccountId"], out int accountId);
+            int.TryParse(_configurationFixture.Configuration["TMetric:UserProfileId"], out int userProfileId);
 
             List<TimeEntry> timeEntries = new List<TimeEntry>();
 
